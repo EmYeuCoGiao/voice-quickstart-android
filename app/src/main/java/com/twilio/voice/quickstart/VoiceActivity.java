@@ -9,6 +9,9 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.media.AudioManager;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
@@ -45,7 +48,7 @@ public class VoiceActivity extends AppCompatActivity {
 
     private static final String TAG = "VoiceActivity";
 
-    private static final String ACCESS_TOKEN_SERVICE_URL = "PROVIDE_YOUR_ACCESS_TOKEN_SERVER";
+    private static final String ACCESS_TOKEN_SERVICE_URL = "http://0f103ef9.ngrok.io/accessToken";
 
     private static final int MIC_PERMISSION_REQUEST_CODE = 1;
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
@@ -80,6 +83,8 @@ public class VoiceActivity extends AppCompatActivity {
     private String gcmToken;
     private String accessToken;
     private AlertDialog alertDialog;
+
+    private Ringtone ringtone;
 
     OutgoingCall.Listener outgoingCallListener = outgoingCallListener();
     IncomingCall.Listener incomingCallListener = incomingCallListener();
@@ -125,6 +130,8 @@ public class VoiceActivity extends AppCompatActivity {
         } else {
             startGCMRegistration();
         }
+        Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+        ringtone = RingtoneManager.getRingtone(getApplicationContext(), notification);
     }
 
     @Override
@@ -148,6 +155,7 @@ public class VoiceActivity extends AppCompatActivity {
                 activeIncomingCall = incomingCall;
                 alertDialog = createIncomingCallDialog(VoiceActivity.this, answerCallClickListener(), cancelCallClickListener());
                 alertDialog.show();
+                ringtone.play();
             }
 
             @Override
