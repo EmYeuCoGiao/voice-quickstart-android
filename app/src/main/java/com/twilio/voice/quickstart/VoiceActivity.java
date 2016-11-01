@@ -48,7 +48,7 @@ public class VoiceActivity extends AppCompatActivity {
 
     private static final String TAG = "VoiceActivity";
 
-    private static final String ACCESS_TOKEN_SERVICE_URL = "http://0f103ef9.ngrok.io/accessToken";
+    private static final String ACCESS_TOKEN_SERVICE_URL = "http://5bb9a955.ngrok.io/accessToken";
 
     private static final int MIC_PERMISSION_REQUEST_CODE = 1;
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
@@ -209,10 +209,15 @@ public class VoiceActivity extends AppCompatActivity {
         };
     }
 
+    private void switchToVideo(){
+        startActivity(new Intent(this, VideoActivity.class));
+    }
+
     private IncomingCall.Listener incomingCallListener() {
         return new IncomingCall.Listener() {
             @Override
             public void onConnected(IncomingCall incomingCall) {
+                switchToVideo();
                 Log.d(TAG, "Connected");
             }
 
